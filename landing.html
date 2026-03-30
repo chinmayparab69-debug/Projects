@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code With Me - Modern Landing Page</title>
+  <meta name="description" content="Modern responsive landing page for MyBrand with features, testimonials, stats, and CTA." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: rgba(255,255,255,0.75);
+      --surface-solid: #ffffff;
+      --surface-2: #eef2ff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 23, 42, 0.08);
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --secondary: #0f172a;
+      --accent: #14b8a6;
+      --success: #16a34a;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.18);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.dark {
+      --bg: #0b1120;
+      --surface: rgba(15, 23, 42, 0.72);
+      --surface-solid: #111827;
+      --surface-2: #172036;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --line: rgba(255, 255, 255, 0.08);
+      --primary: #818cf8;
+      --primary-dark: #6366f1;
+      --secondary: #e2e8f0;
+      --accent: #2dd4bf;
+      --success: #22c55e;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 20px 60px rgba(99, 102, 241, 0.22);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(99,102,241,0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(20,184,166,0.12), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.15;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto 50px;
+      font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(79, 70, 229, 0.12);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--surface-solid);
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .navbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: var(--shadow);
+      font-weight: 800;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    nav a {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface-solid);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform var(--transition), background var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(8deg);
+    }
+
+    .hero {
+      padding: 90px 0 70px;
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 1.02;
+      margin-bottom: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.07rem;
+      max-width: 590px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .hero-card {
+      background: var(--surface-solid);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .dashboard-preview {
+      display: grid;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-title {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .mini-chip {
+      background: rgba(20,184,166,0.12);
+      color: var(--accent);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .mini-graph {
+      height: 180px;
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(99,102,241,0.16), transparent),
+        var(--surface-2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-graph svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mini-box,
+    .stat-card,
+    .feature-card,
+    .testimonial,
+    .pricing-card,
+    .contact-card {
+      background: var(--surface-solid);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .mini-box {
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .mini-box strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .mini-box span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .stats-grid,
+    .features-grid,
+    .testimonial-grid,
+    .pricing-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-card {
+      padding: 28px 22px;
+      border-radius: 22px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .feature-card {
+      padding: 28px;
+      border-radius: 24px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(79, 70, 229, 0.18);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      font-size: 24px;
+      background: linear-gradient(135deg, rgba(79,70,229,0.14), rgba(20,184,166,0.12));
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .about-card {
+      background: var(--surface-solid);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .about-card h2 {
+      font-size: clamp(2rem, 4vw, 2.7rem);
+      margin-bottom: 16px;
+    }
+
+    .about-card p {
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .about-list li {
+      list-style: none;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .about-visual {
+      border-radius: 28px;
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(79,70,229,0.12), rgba(20,184,166,0.12));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .about-panel {
+      background: var(--surface-solid);
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      margin-bottom: 16px;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    body.dark .bar {
+      background: #23304a;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .testimonial-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .testimonial {
+      border-radius: 24px;
+      padding: 28px;
+    }
+
+    .stars {
+      margin-bottom: 14px;
+      color: #f59e0b;
+      letter-spacing: 2px;
+    }
+
+    .testimonial p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      font-weight: 800;
+    }
+
+    .user span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .pricing-grid {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      border-radius: 26px;
+      padding: 30px;
+      position: relative;
+    }
+
+    .pricing-card.popular {
+      transform: translateY(-8px);
+      border-color: rgba(79,70,229,0.18);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(79,70,229,0.1);
+      padding: 7px 12px;
+      border-radius: 999px;
+    }
+
+    .price {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+
+    .price small {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .pricing-card p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .pricing-card ul {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0 26px;
+      list-style: none;
+    }
+
+    .pricing-card ul li {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .cta {
+      padding-top: 30px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: 30px;
+      padding: 50px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cta-box h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 14px;
+    }
+
+    .cta-box p {
+      max-width: 650px;
+      margin: 0 auto 24px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .contact-card {
+      margin-top: 50px;
+      border-radius: 28px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .contact-item h3 {
+      margin-bottom: 8px;
+    }
+
+    .contact-item p,
+    .contact-item a {
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-wrap p,
+    .footer-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 992px) {
+      .hero-wrap,
+      .about-wrap,
+      .contact-card,
+      .features-grid,
+      .testimonial-grid,
+      .pricing-grid,
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-wrap {
+        align-items: start;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 72px 0;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+
+      .hero-wrap,
+      .about-wrap,
+      .features-grid,
+      .testimonial-grid,
+      .pricing-grid,
+      .stats-grid,
+      .contact-card,
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        min-height: 72px;
+      }
+
+      .brand span {
+        font-size: 1rem;
+      }
+
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.3rem, 12vw, 3.5rem);
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .cta-box {
+        padding: 38px 22px;
+      }
+
+      .pricing-card.popular {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a href="#" class="brand" aria-label="MyBrand home">
+        <div class="brand-logo">M</div>
+        <span>Code With Me</span>
+      </a>
+
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#pricing" class="btn btn-secondary">Plans</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="hero-content reveal">
+          <div class="badge">✨ Smart website solution for modern brands</div>
+          <h1>Build a stunning website that grows your business.</h1>
+          <p>
+            Launch faster with a clean, responsive, and high-converting landing page.
+            Perfect for startups, agencies, freelancers, and personal brands.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Get Started</a>
+            <a href="#features" class="btn btn-secondary">Explore Features</a>
+          </div>
+
+          <div class="hero-points">
+            <span>✔ Fast loading</span>
+            <span>✔ Mobile friendly</span>
+            <span>✔ Easy to customize</span>
+          </div>
+        </div>
+
+        <div class="hero-card reveal">
+          <div class="dashboard-preview">
+            <div class="mini-top">
+              <div>
+                <div class="mini-title">Performance Overview</div>
+                <small style="color: var(--muted);">Live growth snapshot</small>
+              </div>
+              <div class="mini-chip">+24%</div>
+            </div>
+
+            <div class="mini-graph">
+              <svg viewBox="0 0 500 220" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 180 C80 170, 90 120, 150 130 S240 80, 300 95 S390 40, 500 55" fill="none" stroke="var(--primary)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M0 180 C80 170, 90 120, 150 130 S240 80, 300 95 S390 40, 500 55 L500 220 L0 220 Z" fill="rgba(99,102,241,0.15)"/>
+              </svg>
+            </div>
+
+            <div class="mini-stats">
+              <div class="mini-box">
+                <strong>12K+</strong>
+                <span>Users</span>
+              </div>
+              <div class="mini-box">
+                <strong>98%</strong>
+                <span>Satisfaction</span>
+              </div>
+              <div class="mini-box">
+                <strong>24/7</strong>
+                <span>Support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card reveal">
+            <h3>250+</h3>
+            <p>Projects Delivered</p>
+          </div>
+          <div class="stat-card reveal">
+            <h3>99%</h3>
+            <p>Client Retention</p>
+          </div>
+          <div class="stat-card reveal">
+            <h3>3x</h3>
+            <p>Faster Launch Time</p>
+          </div>
+          <div class="stat-card reveal">
+            <h3>24/7</h3>
+            <p>Premium Support</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <h2 class="section-title reveal">Powerful features for your success</h2>
+        <p class="section-subtitle reveal">
+          Everything you need to create a polished online presence that looks professional and performs smoothly.
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast Performance</h3>
+            <p>Optimized structure and lightweight design for smooth browsing and better user experience.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon">📱</div>
+            <h3>Fully Responsive</h3>
+            <p>Your website will look clean and modern on desktop, tablet, and mobile devices.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon">🎨</div>
+            <h3>Modern Design</h3>
+            <p>Fresh layout, soft shadows, premium typography, and clean visual hierarchy.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure Structure</h3>
+            <p>Well-organized code and scalable sections make future updates easier and safer.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon">🚀</div>
+            <h3>Easy Deployment</h3>
+            <p>Simple static structure makes it easy to host on Vercel, Netlify, or GitHub Pages.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon">🛠️</div>
+            <h3>Easy Customization</h3>
+            <p>Edit colors, text, sections, and buttons quickly without breaking the layout.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container about-wrap">
+        <div class="about-card reveal">
+          <div class="badge">Why choose us</div>
+          <h2>We create websites that are clean, smart, and conversion focused.</h2>
+          <p>
+            This design is built to give visitors trust at first glance and encourage them to take action.
+            It mixes modern UI with practical sections that real businesses actually need.
+          </p>
+
+          <ul class="about-list">
+            <li><strong>✔</strong> Better section flow for user engagement.</li>
+            <li><strong>✔</strong> More professional brand presentation.</li>
+            <li><strong>✔</strong> Useful extra sections like testimonials, pricing, and stats.</li>
+          </ul>
+        </div>
+
+        <div class="about-visual reveal">
+          <div class="about-panel">
+            <strong>Design Quality</strong>
+            <div class="bar"><span style="width: 92%"></span></div>
+          </div>
+          <div class="about-panel">
+            <strong>Mobile Experience</strong>
+            <div class="bar"><span style="width: 95%"></span></div>
+          </div>
+          <div class="about-panel">
+            <strong>Customization</strong>
+            <div class="bar"><span style="width: 88%"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <h2 class="section-title reveal">What our clients say</h2>
+        <p class="section-subtitle reveal">
+          Trusted by founders, creators, and businesses who want a modern online presence.
+        </p>
+
+        <div class="testimonial-grid">
+          <div class="testimonial reveal">
+            <div class="stars">★★★★★</div>
+            <p>
+              The design looks premium and works perfectly on mobile. It gave our brand a much stronger first impression.
+            </p>
+            <div class="user">
+              <div class="avatar">A</div>
+              <div>
+                <strong>Aman Verma</strong>
+                <span>Startup Founder</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial reveal">
+            <div class="stars">★★★★★</div>
+            <p>
+              Clean code, smooth layout, and easy customization. Exactly what I needed for my client project.
+            </p>
+            <div class="user">
+              <div class="avatar">R</div>
+              <div>
+                <strong>Riya Sharma</strong>
+                <span>Frontend Developer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial reveal">
+            <div class="stars">★★★★★</div>
+            <p>
+              The added sections like pricing and testimonials made the page feel complete and more professional.
+            </p>
+            <div class="user">
+              <div class="avatar">K</div>
+              <div>
+                <strong>Kunal Mehta</strong>
+                <span>Agency Owner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <h2 class="section-title reveal">Choose the right plan</h2>
+        <p class="section-subtitle reveal">
+          Simple pricing cards added to make the landing page more realistic and business ready.
+        </p>
+
+        <div class="pricing-grid">
+          <div class="pricing-card reveal">
+            <span class="tag">Basic</span>
+            <h3>Starter</h3>
+            <div class="price">₹999 <small>/project</small></div>
+            <p>Good for personal pages and simple landing websites.</p>
+            <ul>
+              <li>✔ Responsive design</li>
+              <li>✔ 3 sections included</li>
+              <li>✔ Basic customization</li>
+            </ul>
+            <a href="#contact" class="btn btn-secondary">Choose Plan</a>
+          </div>
+
+          <div class="pricing-card popular reveal">
+            <span class="tag">Popular</span>
+            <h3>Professional</h3>
+            <div class="price">₹2499 <small>/project</small></div>
+            <p>Perfect for startups, services, and growing brands.</p>
+            <ul>
+              <li>✔ 6+ premium sections</li>
+              <li>✔ Testimonials & stats</li>
+              <li>✔ Better UI polish</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Choose Plan</a>
+          </div>
+
+          <div class="pricing-card reveal">
+            <span class="tag">Advanced</span>
+            <h3>Business</h3>
+            <div class="price">₹4999 <small>/project</small></div>
+            <p>Best for brands needing a stronger and more complete web presence.</p>
+            <ul>
+              <li>✔ Full landing page setup</li>
+              <li>✔ Advanced sections</li>
+              <li>✔ Priority customization</li>
+            </ul>
+            <a href="#contact" class="btn btn-secondary">Choose Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container">
+        <div class="cta-box reveal">
+          <h2>Ready to launch your next website?</h2>
+          <p>
+            Create a modern, responsive, and business-focused landing page that helps your brand stand out.
+          </p>
+          <a href="#contact" class="btn btn-secondary">Start Now</a>
+        </div>
+
+        <div class="contact-card reveal" id="contact">
+          <div class="contact-item">
+            <h3>Contact Us</h3>
+            <p>Email: hello@codewithme.com</p>
+            <p>Phone: +91 98765 43210</p>
+          </div>
+          <div class="contact-item">
+            <h3>Office</h3>
+            <p>Mumbai, Maharashtra, India</p>
+            <a href="#">Book a free consultation →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-wrap">
+      <p>© 2026 MyBrand. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      themeToggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+
+    const revealOnScroll = () => {
+      reveals.forEach((el) => {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight - 80) {
+          el.classList.add('show');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+</body>
+</html>
