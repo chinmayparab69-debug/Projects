@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Management - SRMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #0f1923;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .sidebar {
+            background: #1a2535;
+            min-height: 100vh;
+            padding: 20px;
+            width: 250px;
+            position: fixed;
+        }
+        .sidebar-title {
+            color: #00d4aa;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #2d3f55;
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            color: #8899b4;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            display: block;
+            text-decoration: none;
+        }
+        .nav-link:hover { background: #243447; color: white; }
+        .nav-link.active {
+            background: linear-gradient(135deg, #00d4aa22, #0099ff22);
+            color: #00d4aa;
+            border: 1px solid #00d4aa44;
+        }
+        .main-content { margin-left: 250px; padding: 30px; }
+        .page-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 25px; }
+        .btn-logout {
+            background: #ff4d6d22;
+            border: 1px solid #ff4d6d;
+            color: #ff4d6d;
+            border-radius: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-logout:hover { background: #ff4d6d; color: white; }
+        .card-dark {
+            background: #1a2535;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #2d3f55;
+            margin-bottom: 25px;
+        }
+        .form-control, .form-select {
+            background: #0f1923;
+            border: 1px solid #2d3f55;
+            color: white;
+            border-radius: 10px;
+            padding: 12px 15px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: #0f1923;
+            border-color: #00d4aa;
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(0, 212, 170, 0.25);
+        }
+        .form-label { color: #8899b4; font-size: 0.85rem; }
+        .form-select option { background: #1a2535; color: white; }
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #00d4aa, #0099ff);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-primary-custom:hover { opacity: 0.9; color: white; }
+        .section-title { color: #00d4aa; font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; }
+        .table { color: white; }
+        .table thead th {
+            color: #00d4aa;
+            border-bottom: 1px solid #2d3f55;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .table tbody td {
+            border-bottom: 1px solid #1f2d45;
+            padding: 12px 10px;
+            vertical-align: middle;
+        }
+        .table tbody tr:hover { background: #243447; }
+        .badge-present {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+            border: 1px solid #00d4aa;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-absent {
+            background: rgba(255, 77, 109, 0.2);
+            color: #ff4d6d;
+            border: 1px solid #ff4d6d;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-late {
+            background: rgba(255, 184, 77, 0.2);
+            color: #ffb84d;
+            border: 1px solid #ffb84d;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .student-id { color: #00d4aa; font-family: monospace; font-size: 0.85rem; }
+        .alert-success {
+            background: rgba(0, 212, 170, 0.2);
+            border: 1px solid #00d4aa;
+            color: #00d4aa;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        .stat-mini {
+            background: #0f1923;
+            border-radius: 10px;
+            padding: 15px 20px;
+            border: 1px solid #2d3f55;
+            text-align: center;
+        }
+        .stat-mini-number { font-size: 1.8rem; font-weight: 700; }
+        .stat-mini-label { color: #8899b4; font-size: 0.8rem; margin-top: 4px; }
+        .status-radio { display: none; }
+        .status-label {
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #2d3f55;
+            color: #8899b4;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .status-radio:checked + .status-label.present-lbl {
+            background: rgba(0,212,170,0.2); color: #00d4aa; border-color: #00d4aa;
+        }
+        .status-radio:checked + .status-label.absent-lbl {
+            background: rgba(255,77,109,0.2); color: #ff4d6d; border-color: #ff4d6d;
+        }
+        .status-radio:checked + .status-label.late-lbl {
+            background: rgba(255,184,77,0.2); color: #ffb84d; border-color: #ffb84d;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-title">🎓 SRMS</div>
+        <nav>
+            <a href="/admin" class="nav-link">📊 Dashboard</a>
+            <a href="/students" class="nav-link">👨‍🎓 Students</a>
+            <a href="/add_student" class="nav-link">➕ Add Student</a>
+            <a href="/marks" class="nav-link">📝 Marks</a>
+            <a href="/attendance" class="nav-link active">📅 Attendance</a>
+        </nav>
+        <a href="/logout" class="btn-logout">🚪 Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-title">📅 Attendance Management</div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert-success">✅ {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Stats Row -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number" style="color: #00d4aa;">{{ total_present }}</div>
+                    <div class="stat-mini-label">✅ Total Present</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number" style="color: #ff4d6d;">{{ total_absent }}</div>
+                    <div class="stat-mini-label">❌ Total Absent</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number" style="color: #ffb84d;">{{ total_late }}</div>
+                    <div class="stat-mini-label">⏰ Total Late</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number" style="color: #0099ff;">{{ total_records }}</div>
+                    <div class="stat-mini-label">📋 Total Records</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mark Attendance Form -->
+        <div class="card-dark">
+            <div class="section-title">➕ Mark Attendance</div>
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label class="form-label">👨‍🎓 Select Student *</label>
+                        <select class="form-select" name="student_id" required>
+                            <option value="">Select Student</option>
+                            {% for student in students %}
+                            <option value="{{ student.student_id }}">
+                                {{ student.student_id }} - {{ student.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">📅 Date *</label>
+                        <input type="date"
+                               class="form-control"
+                               name="date"
+                               required
+                               value="{{ today }}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">📋 Status *</label>
+                        <div class="d-flex gap-2 mt-1 flex-wrap">
+                            <div>
+                                <input type="radio" class="status-radio" name="status" id="present" value="Present" checked>
+                                <label class="status-label present-lbl" for="present">✅ Present</label>
+                            </div>
+                            <div>
+                                <input type="radio" class="status-radio" name="status" id="absent" value="Absent">
+                                <label class="status-label absent-lbl" for="absent">❌ Absent</label>
+                            </div>
+                            <div>
+                                <input type="radio" class="status-radio" name="status" id="late" value="Late">
+                                <label class="status-label late-lbl" for="late">⏰ Late</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary-custom">
+                    📅 Mark Attendance
+                </button>
+            </form>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="card-dark">
+            <div class="section-title">🔍 Filter Records</div>
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">👨‍🎓 Student ID</label>
+                    <input type="text"
+                           class="form-control"
+                           name="filter_student"
+                           placeholder="e.g. TY-2024-001"
+                           value="{{ request.args.get('filter_student', '') }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">📋 Status</label>
+                    <select class="form-select" name="filter_status">
+                        <option value="">All Status</option>
+                        <option value="Present" {% if request.args.get('filter_status') == 'Present' %}selected{% endif %}>✅ Present</option>
+                        <option value="Absent" {% if request.args.get('filter_status') == 'Absent' %}selected{% endif %}>❌ Absent</option>
+                        <option value="Late" {% if request.args.get('filter_status') == 'Late' %}selected{% endif %}>⏰ Late</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn-primary-custom" style="padding: 12px 20px;">
+                        🔍 Filter
+                    </button>
+                    <a href="/attendance" style="background: #243447; border-radius: 10px; padding: 12px 20px; color: #8899b4; text-decoration: none; font-weight: 600;">
+                        🔄 Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Attendance Records Table -->
+        <div class="card-dark">
+            <div class="section-title">📋 Attendance Records</div>
+            {% if attendance_records %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Marked At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_records %}
+                    <tr>
+                        <td style="color: #8899b4;">{{ loop.index }}</td>
+                        <td><span class="student-id">{{ record.student_id }}</span></td>
+                        <td><strong>{{ record.student_name }}</strong></td>
+                        <td style="color: #8899b4;">{{ record.date }}</td>
+                        <td>
+                            {% if record.status == 'Present' %}
+                                <span class="badge-present">✅ Present</span>
+                            {% elif record.status == 'Absent' %}
+                                <span class="badge-absent">❌ Absent</span>
+                            {% else %}
+                                <span class="badge-late">⏰ Late</span>
+                            {% endif %}
+                        </td>
+                        <td style="color: #8899b4; font-size: 0.85rem;">{{ record.marked_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div style="text-align: center; padding: 40px; color: #8899b4;">
+                <div style="font-size: 3rem;">📅</div>
+                <h4 style="margin-top: 15px;">No Attendance Records Yet!</h4>
+                <p>Mark attendance using the form above!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>
